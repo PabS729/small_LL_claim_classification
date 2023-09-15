@@ -52,7 +52,7 @@ class CustomDataset(Dataset):
             'targets': torch.tensor(self.targets[index], dtype=torch.float)
         }
     
-def train_eval(start_epoch, end_epoch, model, train_loader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader):
+def train_eval(start_epoch, end_epoch, model, train_loader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader, training_state):
     model.train()
     for cur_epoch in range(start_epoch, end_epoch):
         for step,data in enumerate(tqdm(train_loader, total=len(train_loader), desc="Training")):
@@ -72,13 +72,14 @@ def train_eval(start_epoch, end_epoch, model, train_loader, device, optimizer, l
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-        if (step + 1) % save_steps == 0:
-            logger.info("***** CUDA.empty_cache() *****")
-            torch.cuda.empty_cache()
+            if (step + 1) % save_steps == 0:
+                logger.info("***** CUDA.empty_cache() *****")
+                torch.cuda.empty_cache()
 
-            result = validation(eval_dataloader, device, model, logger)
-            eval_acc = result['eval_acc']
-            eval_macro_f1 = result['eval_macro_f1']
+                result = validation(eval_dataloader, device, model, logger)
+                eval_acc = result['eval_acc']
+            
+            model.train()
 
             training_state['dev_acc'].append({'epoch': training_state['epoch'], 'dev_acc': eval_acc})
 

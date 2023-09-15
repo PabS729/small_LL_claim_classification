@@ -139,7 +139,7 @@ def main():
 
     start_epoch = training_state['epoch']
     slm = SLMClass(model)
-    train_eval(start_epoch, EPOCHS, slm, train_dataloader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader)
+    train_eval(start_epoch, EPOCHS, slm, train_dataloader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader, training_state)
 
 
 
