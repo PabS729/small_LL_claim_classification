@@ -2,6 +2,7 @@ import torch
 from torch.utils.data import Dataset
 from tqdm import tqdm
 import numpy as np
+from sklearn import metrics
 
 class SLMClass(torch.nn.Module):
     def __init__(self, model):
@@ -82,6 +83,7 @@ def train_eval(start_epoch, end_epoch, model, train_loader, device, optimizer, l
             model.train()
 
             training_state['dev_acc'].append({'epoch': training_state['epoch'], 'dev_acc': eval_acc})
+    return training_state
 
 def validation(eval_dataloader, device, model, logger):
     model.eval()
@@ -98,9 +100,11 @@ def validation(eval_dataloader, device, model, logger):
             fin_outputs.extend(torch.sigmoid(outputs).cpu().detach().numpy().tolist())
         
         preds = fin_outputs.argmax(axis=1)
-        eval_acc = np.mean(fin_targets == preds)
+        eval_acc = metrics.accuracy_score(fin_targets, preds)
+        f1_score = metrics.f1_score(fin_targets, preds, average="micro")
     result = {
         "eval_acc": round(eval_acc, 4),
+        "f1_score": round(f1_score, 4)
     }
     logger.info("***** Eval Ended *****")
     return result

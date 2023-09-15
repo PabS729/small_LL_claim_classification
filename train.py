@@ -18,12 +18,12 @@ from configs import *
 from utils import * 
 from misc import *
 from transformers import (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer,
-                          T5Config, T5ForConditionalGeneration, T5Tokenizer,
+                        #   T5Config, T5ForConditionalGeneration, T5Tokenizer,
                           BertConfig, BertForSequenceClassification, BertTokenizer, )
 
 
 MODEL_CLASSES = {'roberta': (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer),
-                 't5': (T5Config, T5ForConditionalGeneration, T5Tokenizer),
+                #  't5': (T5Config, T5ForConditionalGeneration, T5Tokenizer),
                  'bert': (BertConfig, BertForSequenceClassification, BertTokenizer),
                  'muppet': (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer), }
 NUM_LABELS = 2
@@ -139,17 +139,9 @@ def main():
 
     start_epoch = training_state['epoch']
     slm = SLMClass(model)
-    train_eval(start_epoch, EPOCHS, slm, train_dataloader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader, training_state)
+    new_state = train_eval(start_epoch, EPOCHS, slm, train_dataloader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader, training_state)
 
 
 
-
-for epoch in range(EPOCHS):
-    outputs, targets = validation(epoch)
-    outputs = np.array(outputs) >= 0.5
-    accuracy = metrics.accuracy_score(targets, outputs)
-    f1_score_micro = metrics.f1_score(targets, outputs, average='micro')
-    f1_score_macro = metrics.f1_score(targets, outputs, average='macro')
-    print(f"Accuracy Score = {accuracy}")
-    print(f"F1 Score (Micro) = {f1_score_micro}")
-    print(f"F1 Score (Macro) = {f1_score_macro}")
+if __name__ == "__main__":
+    main()
