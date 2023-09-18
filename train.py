@@ -19,18 +19,18 @@ from utils import *
 from misc import *
 from transformers import (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer,
                         #   T5Config, T5ForConditionalGeneration, T5Tokenizer,
-                          BertConfig, BertForSequenceClassification, BertTokenizer, )
+                          BertConfig, BertForSequenceClassification, BertModel, BertTokenizer, )
 
 
 MODEL_CLASSES = {'roberta': (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer),
                 #  't5': (T5Config, T5ForConditionalGeneration, T5Tokenizer),
-                 'bert': (BertConfig, BertForSequenceClassification, BertTokenizer),
+                 'bert': (BertConfig, BertModel, BertTokenizer),
                  'muppet': (RobertaConfig, RobertaForSequenceClassification, RobertaTokenizer), }
 NUM_LABELS = 2
 MAX_LEN = 200
-TRAIN_BATCH_SIZE = 8
-VALID_BATCH_SIZE = 4
-EPOCHS = 1
+TRAIN_BATCH_SIZE = 32
+VALID_BATCH_SIZE = 32
+EPOCHS = 40
 LEARNING_RATE = 1e-05
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
@@ -44,6 +44,24 @@ device = 'cuda' if cuda.is_available() else 'cpu'
 
 def loss_fn(outputs, targets):
     return torch.nn.BCEWithLogitsLoss()(outputs, targets)
+
+
+def load_and_cache_data(args, tokenizer, split_tag):
+    func_dict = {
+        'claimbuster': load_claimbuster_data,
+        'claim-rank': load_claimrank_data,
+        'clef_2022_worth': load_general_data,
+        'mt': load_general_data,
+        'oc': load_general_data,
+        'pe': load_general_data,
+        'vg': load_general_data,
+        'wd': load_general_data,
+        'wtp': load_general_data,
+        'lesa-twitter': load_general_data,
+        'mix_detection': load_detection_data,
+        'retro_mix_detection': load_retro_data,
+    }
+    return func_dict[args.task](args, tokenizer, split_tag)
 
 
 def main():
@@ -64,19 +82,23 @@ def main():
     new_df = df[['comment_text', 'list']].copy()
     new_df.head()
 
+
+
     config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
     config = config_class.from_pretrained(args.config_name if args.config_name else args.model_name_or_path,
                                           num_labels=NUM_LABELS)
     model = model_class.from_pretrained(args.model_name_or_path, config=config, cache_dir='cache',
-                                        local_files_only=True)
-    tokenizer = tokenizer_class.from_pretrained(args.model_name_or_path, cache_dir='cache', local_files_only=True)
+                                        local_files_only=False)
+    tokenizer = tokenizer_class.from_pretrained(args.model_name_or_path, cache_dir='cache', local_files_only=False)
 
-            # prepare training dataloader
-    train_dataset = CustomDataset(df, tokenizer, MAX_LEN)
+    # prepare training dataloader
+    train_examples, train_dataset = load_and_cache_data(args, tokenizer, split_tag='train')
+    # train_dataset = CustomDataset(df, tokenizer, MAX_LEN)
     logger.info("Training Data Counts: " + str(len(train_dataset)))
     train_example_num = len(train_dataset)
 
-    eval_dataset = CustomDataset(df, tokenizer, MAX_LEN)
+    eval_examples, eval_dataset = load_and_cache_data(args, tokenizer, split_tag='train')
+    # eval_dataset = CustomDataset(df, tokenizer, MAX_LEN)
     logger.info("Evaluation Data Counts: " + str(len(eval_dataset)))
 
     train_sampler = RandomSampler(train_dataset)
@@ -98,9 +120,9 @@ def main():
     ]
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
     num_train_optimization_steps = args.num_train_epochs * len(train_dataloader)
-    scheduler = get_linear_schedule_with_warmup(optimizer,
-                                                    num_warmup_steps=args.warmup_steps,
-                                                    num_training_steps=num_train_optimization_steps)
+    # scheduler = get_linear_schedule_with_warmup(optimizer,
+                                                    # num_warmup_steps=args.warmup_steps,
+                                                    # num_training_steps=num_train_optimization_steps)
 
     if args.cont:
         if args.local_rank == -1:
@@ -109,10 +131,10 @@ def main():
             map_location = "cuda:%d" % args.local_rank
         optimizer_state = torch.load(os.path.join(args.output_dir, 'checkpoint-last/optimizer.pt'),
                                      map_location=map_location)
-        scheduler_state = torch.load(os.path.join(args.output_dir, 'checkpoint-last/scheduler.pt'),
-                                         map_location=map_location)
+        # scheduler_state = torch.load(os.path.join(args.output_dir, 'checkpoint-last/scheduler.pt'),
+        #                                  map_location=map_location)
         optimizer.load_state_dict(optimizer_state)
-        scheduler.load_state_dict(scheduler_state)
+        # scheduler.load_state_dict(scheduler_state)
 
             
     # Start training
@@ -139,6 +161,7 @@ def main():
 
     start_epoch = training_state['epoch']
     slm = SLMClass(model)
+    slm.to(device=device)
     new_state = train_eval(start_epoch, EPOCHS, slm, train_dataloader, device, optimizer, loss_fn, logger, save_steps, eval_dataloader, training_state)
 
 

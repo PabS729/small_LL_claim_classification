@@ -29,7 +29,7 @@ def add_args(parser):
     parser.add_argument("--add_prompt", action='store_true', help="Whether to add prompt for t5")
     parser.add_argument("--save_last_checkpoints", action='store_true')
     parser.add_argument("--always_save_model", action='store_true')
-    parser.add_argument("--model_name_or_path", default="roberta-base", type=str,
+    parser.add_argument("--model_name_or_path", default="bert-base-uncased", type=str,
                         help="Path to pre-trained model: e.g. roberta-base")
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")

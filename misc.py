@@ -12,7 +12,7 @@ class SLMClass(torch.nn.Module):
         self.l3 = torch.nn.Linear(768, 6)
     
     def forward(self, ids, mask, token_type_ids):
-        _, output_1= self.l1(ids, attention_mask = mask, token_type_ids = token_type_ids, return_dict=False)
+        _,output_1= self.l1(ids, attention_mask = mask, token_type_ids = token_type_ids, return_dict=False)
         output_2 = self.l2(output_1)
         output = self.l3(output_2)
         return output
@@ -79,10 +79,10 @@ def train_eval(start_epoch, end_epoch, model, train_loader, device, optimizer, l
 
                 result = validation(eval_dataloader, device, model, logger)
                 eval_acc = result['eval_acc']
-            
+                training_state['dev_acc'].append({'epoch': training_state['epoch'], 'dev_acc': eval_acc})
             model.train()
 
-            training_state['dev_acc'].append({'epoch': training_state['epoch'], 'dev_acc': eval_acc})
+                
     return training_state
 
 def validation(eval_dataloader, device, model, logger):
