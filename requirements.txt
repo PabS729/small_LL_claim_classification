@@ -1,6 +1,5 @@
 torch
 tqdm
-logging
 transformers
 numpy
 sklearn
