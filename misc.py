@@ -3,6 +3,9 @@ from torch.utils.data import Dataset
 from tqdm import tqdm
 import numpy as np
 from sklearn import metrics
+from transformers import AutoTokenizer
+import pandas as pd
+
 
 class SLMClass(torch.nn.Module):
     def __init__(self, model):
@@ -22,8 +25,8 @@ class CustomDataset(Dataset):
     def __init__(self, dataframe, tokenizer, max_len):
         self.tokenizer = tokenizer
         self.data = dataframe
-        self.comment_text = dataframe.comment_text
-        self.targets = self.data.list
+        self.comment_text = dataframe.tweet_text
+        self.targets = self.data.claim
         self.max_len = max_len
 
     def __len__(self):
@@ -108,3 +111,75 @@ def validation(eval_dataloader, device, model, logger):
     }
     logger.info("***** Eval Ended *****")
     return result
+
+
+class newDataset(Dataset):
+    def __init__(self, encodings, labels):
+        self.encodings = encodings
+        self.labels = labels
+
+    def __getitem__(self, idx):
+        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        item['labels'] = torch.tensor(self.labels[idx])
+        return item
+
+    def __len__(self):
+        return len(self.labels)
+    
+def combine_sentences(sents):
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True)
+    new_sents = []
+    for i in range(len(sents)):
+        if i == 0:
+            concatenated_sent = sents[i] + sents[i+1]
+        elif i == len(sents) - 1:
+            concatenated_sent = sents[i-1] + sents[i]
+        else:
+            concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
+            tok = tokenizer.tokenize(concatenated_sent)
+            if (len(tok) > 512):
+                print("gt")
+                concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
+        new_sents.append(concatenated_sent)
+    
+    return new_sents
+
+def read_data(train_fn):
+    dataset_file_train = pd.read_excel(train_fn)
+
+    train_text = list(dataset_file_train["SENTENCES"])
+    new_train = combine_sentences(train_text)
+    print("done reading training data")
+
+    return new_train, dataset_file_train['labels']
+
+def read_test_data(test_fn):
+    dataset_file_test = pd.read_excel(test_fn)
+
+    test_text = list(dataset_file_test["SENTENCES"])
+    new_test = combine_sentences(test_text)
+
+    return new_test, dataset_file_test['Golden']
+
+def preprocess_silver_label(test_fn):
+    dataset_file_test = pd.read_excel(test_fn)
+    dataset_file_test["orig_index"] = dataset_file_test.index
+    sents = list(dataset_file_test["SENTENCES"])
+    silver_labels = dataset_file_test.loc[dataset_file_test['likelihood'].isin([0,3])]
+    indices = list(silver_labels["orig_index"])
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True)
+    new_sents = []
+    for i in indices:
+        if i == 0:
+            concatenated_sent = sents[i] + sents[i+1]
+        elif i == len(indices) - 1:
+            concatenated_sent = sents[i-1] + sents[i]
+        else:
+            concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
+            tok = tokenizer.tokenize(concatenated_sent)
+            if (len(tok) > 512):
+                print("gt")
+                concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
+        new_sents.append(concatenated_sent)
+    print("done processing silver labels")
+    return new_sents, silver_labels['likelihood']

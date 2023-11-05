@@ -1,70 +1,95 @@
 import transformers
 from transformers.utils import send_example_telemetry
-from datasets import load_dataset, load_metric
+from torch.utils.data import random_split
 import numpy as np
-import datasets
+import evaluate
 import random
 import pandas as pd
+import os
 from misc import *
 from IPython.display import display, HTML
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
-
-task_dict = {
-    "clef_2021": "tweet-text",
-    "clef_2022": "tweet-text",
-    "claimbuster":"Text",
-    "lesa":"text",
-}
+from transformers import AutoTokenizer, DistilBertForSequenceClassification, Trainer, TrainingArguments, AutoModelForSequenceClassification
 
 dataset_locs = {
-    "clef_2021": "./data/CLEF_2021",
+    "clef_2021": "./data/sub1/",
     "clef_2022": "./data/CLEF_2022_ALAM",
     "claimbuster":"./data/claimbuster",
     "lesa":"./data/lesa-twitter",
+    'speeches':'./data/gold',
+    'silver_speech':'./data/silver+bronze'
 }
 
-
-task = "lesa"
-model_checkpoint = "bert-base-uncased"
+token = open("../token.txt")
+tok = token.readline()
+task = "clef_2021"
+#model_checkpoint = "distilbert-base-uncased"
+model_checkpoint = "roberta-base"
 batch_size = 16
-max_len = 256
+max_len = 512
+metric = evaluate.load("accuracy")
 
-actual_task = "mnli" if task == "mnli-mm" else task
-dataset = load_dataset("glue", actual_task)
-metric = load_metric('glue', actual_task)
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, use_fast=True)
-
-dataset_file_train = pd.DataFrame.from_csv(dataset_locs[task], separator = "\t")
-dataset_file_eval = pd.DataFrame.from_csv(dataset_locs[task], separator = "\t")
-dataset_file_test = pd.DataFrame.from_csv(dataset_locs[task], separator = "\t")
-train_dataset = CustomDataset(dataset_file_train, tokenizer, max_len)
-eval_dataset = CustomDataset(dataset_file_eval, tokenizer, max_len)
-test_dataset = CustomDataset(dataset_file_test, tokenizer, max_len)
+ls_gold = os.listdir(dataset_locs['speeches'])
+ls_silver = os.listdir(dataset_locs['silver_speech'])
+# actual_task = "mnli" if task == "mnli-mm" else task
+# dataset = load_dataset("glue", actual_task)
+# metric = load_metric('glue', "cola")
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
 
-def preprocess_function(examples):
-    return tokenizer(examples[task_dict[task]], truncation=True)
+dataset_locs[task] + "dataset_dev_v1_english.tsv"
 
-encoded_dataset = dataset.map(preprocess_function, batched=True)
+# concatenated_sent = "[CLS]" + sent1 + "[SEP]" + sent2 + "[SEP]" + sent3
+# tokenized_sent = tokenizer(concatenated_sent, truncate=True, pading=True)
+trains = []
+train_labs = []
+silver_tr = []
+silver_label = []
+for i in range(0, 4):
+    new_train, train_labels = read_data(dataset_locs['speeches'] + '/' + ls_gold[i])
+    trains += new_train
+    train_labs += list(train_labels)
+
+print(len(trains), len(train_labs))
+for j in range(10):
+    print(trains[j], train_labs[j])
+for k in range(0, 2):
+    silver_st, silver_labs = preprocess_silver_label(dataset_locs['silver_speech'] + '/' + ls_silver[k])
+    silver_tr += silver_st
+    silver_label += list(silver_labs)
+
+# new_test, test_labels = read_test_data("./data/clef-2022_labeling_golden.xlsx")
+new_test, test_labels = read_test_data("./data/human_eval_merged.xlsx")
+train_encodings = tokenizer(trains, truncation=True, padding=True)
+test_encodings = tokenizer(new_test, truncation=True, padding=True)
+
+
+mixed_st = trains + silver_tr
+mixed_labs = train_labs + silver_label
+full_dataset = newDataset(train_encodings, train_labs)
+
+train_size = int(0.8 * len(full_dataset))
+val_size = len(full_dataset) - train_size
+train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
+test_dataset = newDataset(test_encodings, test_labels)
+print("loaded datasets")
 
 num_labels = 1
-model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint, num_labels=num_labels)
-
+model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint)
 metric_name = "accuracy"
 model_name = model_checkpoint.split("/")[-1]
 
 args = TrainingArguments(
-    f"{model_name}-finetuned-{task}",
+    f"output_dir/{model_name}-finetuned-{task}-silver",
     evaluation_strategy = "epoch",
     save_strategy = "epoch",
     learning_rate=2e-5,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
-    num_train_epochs=5,
+    num_train_epochs=10,
     weight_decay=0.01,
     load_best_model_at_end=True,
     metric_for_best_model=metric_name,
-    push_to_hub=True,
+    push_to_hub=False,
 )
 
 def compute_metrics(eval_pred):
@@ -74,16 +99,15 @@ def compute_metrics(eval_pred):
     else:
         predictions = predictions[:, 0]
     return metric.compute(predictions=predictions, references=labels)
-
-validation_key = "validation_mismatched" if task == "mnli-mm" else "validation_matched" if task == "mnli" else "validation"
 trainer = Trainer(
     model,
     args,
-    train_dataset=train_dataset,
-    eval_dataset=eval_dataset,
+    train_dataset=full_dataset,
+    eval_dataset=test_dataset,
     tokenizer=tokenizer,
-    compute_metrics=compute_metrics
+    compute_metrics=compute_metrics,
 )
 
 trainer.train()
 trainer.evaluate()
+token.close()
