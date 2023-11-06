@@ -86,7 +86,7 @@ for i in range(0, len(ls_gold)):
     train_labs += train_labels
 
 
-gold_len = args.use_gold
+gold_len = int(args.use_gold)
 if gold_len != 0:
     gold_len = len(trains)
 
@@ -124,18 +124,19 @@ model_name = model_checkpoint.split("/")[-1]
 
 args_train = TrainingArguments(
     # f"output_dir/{model_name}",
-    f"output_dir/{model_name}-gold-{gold_len}-silver-{args.use_silver}-bronze-{args.use_bronze}-epochs-{args.epochs}-seeds-{args.seed}",
+    f"output_dir/{model_name}-gold-{gold_len}-silver-{int(args.use_silver)}-bronze-{int(args.use_bronze)}-epochs-{int(args.epochs)}-seeds-{int(args.seed)}",
     evaluation_strategy = "epoch",
     save_strategy = "epoch",
     learning_rate=2e-5,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
-    num_train_epochs=args.epochs,
+    num_train_epochs=int(args.epochs),
     weight_decay=0.01,
     load_best_model_at_end=True,
     metric_for_best_model=metric_name,
     push_to_hub=False,
-    seed = int(args.seed)
+    seed = int(args.seed),
+    report_to='none'
 )
 print("okk")
 def compute_metrics(eval_pred):
