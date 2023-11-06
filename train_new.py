@@ -34,7 +34,7 @@ parser.add_argument("--seed", default=123)
 parser.add_argument("--model", default="distilbert-base-uncased")
 
 args = parser.parse_args()
-set_seed(args)
+# set_seed(args)
 logging.basicConfig(
     filemode='a',
     filename="log_gold_%d_silver_%d_bronze_%d_epochs_%d_seed_%d",
@@ -135,7 +135,7 @@ args_train = TrainingArguments(
     load_best_model_at_end=True,
     metric_for_best_model=metric_name,
     push_to_hub=False,
-    seed = args.seed
+    seed = int(args.seed)
 )
 print("okk")
 def compute_metrics(eval_pred):
