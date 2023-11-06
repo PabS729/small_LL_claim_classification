@@ -6,7 +6,7 @@ EPOCHS=5
 BATCHSIZE=16
 
 MODEL='distilbert-base-uncased'
-echo 'wandb login ab526b074d1667944fd0e6f990aef5dc2c28a93a' >> out.sh
+echo 'wandb login {api for wandb}' >> out.sh
 
 for j in $( eval echo {0..$MAX_SILVER_LEN..$SILVER_LEN} )
 do
