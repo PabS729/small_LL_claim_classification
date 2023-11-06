@@ -1,0 +1,32 @@
+2023-11-06 21:27:15.710507: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Some weights of the model checkpoint at distilbert-base-uncased were not used when initializing DistilBertForSequenceClassification: ['vocab_transform.weight', 'vocab_layer_norm.bias', 'vocab_transform.bias', 'vocab_projector.bias', 'vocab_layer_norm.weight']
+- This IS expected if you are initializing DistilBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing DistilBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['pre_classifier.weight', 'classifier.bias', 'classifier.weight', 'pre_classifier.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+done reading training data
+done reading training data
+done reading training data
+done reading training data
+[]
+loaded datasets
+okk
+start training
+Traceback (most recent call last):
+  File "/cluster/home/shimin/small_LL_claim_classification/train_new.py", line 158, in <module>
+    trainer.train()
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 1664, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 1676, in _inner_training_loop
+    train_dataloader = self.get_train_dataloader()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 908, in get_train_dataloader
+    return DataLoader(
+           ^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/torch/utils/data/dataloader.py", line 357, in __init__
+    batch_sampler = BatchSampler(sampler, batch_size, drop_last)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/torch/utils/data/sampler.py", line 232, in __init__
+    raise ValueError("batch_size should be a positive integer value, "
+ValueError: batch_size should be a positive integer value, but got batch_size=16

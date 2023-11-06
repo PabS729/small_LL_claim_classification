@@ -48,7 +48,7 @@ logger.info(args)
 task = "clef_2021"
 #model_checkpoint = "distilbert-base-uncased"
 model_checkpoint = args.model
-batch_size = args.batch_size
+batch_size = int(args.batch_size)
 max_len = 512
 metric = evaluate.load("accuracy")
 

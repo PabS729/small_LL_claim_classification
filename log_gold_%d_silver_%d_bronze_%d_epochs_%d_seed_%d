@@ -17,3 +17,4 @@
 11/06/2023 20:55:16 - INFO - __main__ -   Namespace(use_gold=4, use_silver=0, use_bronze=0, epochs=5, batch_size=16, seed=123, model='distilbert-base-uncased')
 11/06/2023 21:01:06 - INFO - __main__ -   Namespace(use_gold=4, use_silver=0, use_bronze=0, epochs=5, batch_size=16, seed=123, model='distilbert-base-uncased')
 11/06/2023 21:11:14 - INFO - __main__ -   Namespace(use_gold=4, use_silver='0', use_bronze='0', epochs='5', batch_size='16--seed=25415', seed=123, model='distilbert-base-uncased')
+11/06/2023 21:28:28 - INFO - __main__ -   Namespace(use_gold=4, use_silver='0', use_bronze='0', epochs='5', batch_size='16', seed='22793', model='distilbert-base-uncased')
