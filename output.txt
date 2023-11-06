@@ -1,0 +1,8 @@
+done reading training data
+done reading training data
+done reading training data
+done reading training data
+[]
+loaded datasets
+okk
+start training

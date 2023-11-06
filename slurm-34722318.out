@@ -1,0 +1,40 @@
+2023-11-06 21:00:19.616303: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Downloading model.safetensors:   0%|          | 0.00/268M [00:00<?, ?B/s]Downloading model.safetensors:   4%|▍         | 10.5M/268M [00:00<00:02, 100MB/s]Downloading model.safetensors:  12%|█▏        | 31.5M/268M [00:00<00:01, 129MB/s]Downloading model.safetensors:  23%|██▎       | 62.9M/268M [00:00<00:01, 193MB/s]Downloading model.safetensors:  35%|███▌      | 94.4M/268M [00:00<00:00, 235MB/s]Downloading model.safetensors:  51%|█████     | 136M/268M [00:00<00:00, 270MB/s] Downloading model.safetensors:  67%|██████▋   | 178M/268M [00:00<00:00, 293MB/s]Downloading model.safetensors:  82%|████████▏ | 220M/268M [00:00<00:00, 306MB/s]Downloading model.safetensors:  94%|█████████▍| 252M/268M [00:00<00:00, 285MB/s]Downloading model.safetensors: 100%|██████████| 268M/268M [00:01<00:00, 241MB/s]
+Some weights of the model checkpoint at distilbert-base-uncased were not used when initializing DistilBertForSequenceClassification: ['vocab_layer_norm.bias', 'vocab_layer_norm.weight', 'vocab_transform.weight', 'vocab_transform.bias', 'vocab_projector.bias']
+- This IS expected if you are initializing DistilBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing DistilBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of DistilBertForSequenceClassification were not initialized from the model checkpoint at distilbert-base-uncased and are newly initialized: ['classifier.weight', 'pre_classifier.weight', 'classifier.bias', 'pre_classifier.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/optimization.py:407: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+wandb: ERROR api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+Traceback (most recent call last):
+  File "/cluster/home/shimin/small_LL_claim_classification/train_new.py", line 159, in <module>
+    trainer.train()
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 1664, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 1855, in _inner_training_loop
+    self.control = self.callback_handler.on_train_begin(args, self.state, self.control)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer_callback.py", line 353, in on_train_begin
+    return self.call_event("on_train_begin", args, state, control)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer_callback.py", line 397, in call_event
+    result = getattr(callback, event)(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/integrations.py", line 764, in on_train_begin
+    self.setup(args, state, model, **kwargs)
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/integrations.py", line 738, in setup
+    self._wandb.init(
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/wandb/sdk/wandb_init.py", line 1164, in init
+    raise e
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/wandb/sdk/wandb_init.py", line 1141, in init
+    wi.setup(kwargs)
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/wandb/sdk/wandb_init.py", line 289, in setup
+    wandb_login._login(
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/wandb/sdk/wandb_login.py", line 298, in _login
+    wlogin.prompt_api_key()
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/wandb/sdk/wandb_login.py", line 228, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])

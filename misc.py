@@ -151,7 +151,7 @@ def read_data(train_fn):
     new_train = combine_sentences(train_text)
     print("done reading training data")
 
-    return new_train, dataset_file_train['labels']
+    return new_train, list(dataset_file_train['labels'])
 
 def read_test_data(test_fn):
     dataset_file_test = pd.read_excel(test_fn)
@@ -159,7 +159,7 @@ def read_test_data(test_fn):
     test_text = list(dataset_file_test["SENTENCES"])
     new_test = combine_sentences(test_text)
 
-    return new_test, dataset_file_test['Golden']
+    return new_test, list(dataset_file_test['Golden'])
 
 def preprocess_silver_label(test_fn):
     dataset_file_test = pd.read_excel(test_fn)
@@ -169,11 +169,13 @@ def preprocess_silver_label(test_fn):
     indices = list(silver_labels["orig_index"])
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True)
     new_sents = []
+    labels = np.array(silver_labels['likelihood'])
+    labels = list(labels >= 2)
     for i in indices:
         if i == 0:
-            concatenated_sent = sents[i] + sents[i+1]
-        elif i == len(indices) - 1:
-            concatenated_sent = sents[i-1] + sents[i]
+            concatenated_sent = "[CLS]" + sents[i]  + "[SEP]" + sents[i+1]
+        elif i == len(sents) - 1:
+            concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i]
         else:
             concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
             tok = tokenizer.tokenize(concatenated_sent)
@@ -182,4 +184,30 @@ def preprocess_silver_label(test_fn):
                 concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
         new_sents.append(concatenated_sent)
     print("done processing silver labels")
-    return new_sents, silver_labels['likelihood']
+    
+    return new_sents, labels
+
+def preprocess_bronze_label(test_fn):
+    dataset_file_test = pd.read_excel(test_fn)
+    dataset_file_test["orig_index"] = dataset_file_test.index
+    sents = list(dataset_file_test["SENTENCES"])
+    bronze_labels = dataset_file_test.loc[dataset_file_test['likelihood'].isin([0.5,1,1.5,2,2.5])]
+    indices = list(bronze_labels["orig_index"])
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True)
+    new_sents = []
+    labels = np.array(bronze_labels['likelihood'])
+    labels = list(labels >= 2)
+    for i in indices:
+        if i == 0:
+            concatenated_sent = "[CLS]" + sents[i]  + "[SEP]" + sents[i+1]
+        elif i == len(sents) - 1:
+            concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i]
+        else:
+            concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
+            tok = tokenizer.tokenize(concatenated_sent)
+            if (len(tok) > 512):
+                print("gt")
+                concatenated_sent = "[CLS]" + sents[i-1] + "[SEP]" + sents[i] + "[SEP]" + sents[i+1]
+        new_sents.append(concatenated_sent)
+    print("done processing silver labels")
+    return new_sents, labels

@@ -1,0 +1,134 @@
+2023-11-06 19:59:49,948 INFO    StreamThr :10467 [internal.py:wandb_internal():86] W&B internal server running at pid: 10467, started at: 2023-11-06 19:59:49.947920
+2023-11-06 19:59:49,949 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: status
+2023-11-06 19:59:49,951 INFO    WriterThread:10467 [datastore.py:open_for_write():85] open: /cluster/home/shimin/small_LL_claim_classification/wandb/offline-run-20231106_195949-7k61au5k/run-7k61au5k.wandb
+2023-11-06 19:59:49,966 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: run_start
+2023-11-06 19:59:49,982 ERROR   HandlerThread:10467 [gpu.py:is_available():339] Error initializing NVML: Driver Not Loaded
+2023-11-06 19:59:49,983 DEBUG   HandlerThread:10467 [system_info.py:__init__():31] System info init
+2023-11-06 19:59:49,983 DEBUG   HandlerThread:10467 [system_info.py:__init__():46] System info init done
+2023-11-06 19:59:49,983 INFO    HandlerThread:10467 [system_monitor.py:start():181] Starting system monitor
+2023-11-06 19:59:49,983 INFO    SystemMonitor:10467 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-11-06 19:59:49,983 INFO    HandlerThread:10467 [system_monitor.py:probe():201] Collecting system info
+2023-11-06 19:59:49,984 INFO    SystemMonitor:10467 [interfaces.py:start():190] Started cpu monitoring
+2023-11-06 19:59:49,985 INFO    SystemMonitor:10467 [interfaces.py:start():190] Started disk monitoring
+2023-11-06 19:59:49,986 INFO    SystemMonitor:10467 [interfaces.py:start():190] Started memory monitoring
+2023-11-06 19:59:49,986 INFO    SystemMonitor:10467 [interfaces.py:start():190] Started network monitoring
+2023-11-06 19:59:49,988 DEBUG   HandlerThread:10467 [system_info.py:probe():195] Probing system
+2023-11-06 19:59:49,990 DEBUG   HandlerThread:10467 [system_info.py:_probe_git():180] Probing git
+2023-11-06 19:59:50,004 DEBUG   HandlerThread:10467 [system_info.py:_probe_git():188] Probing git done
+2023-11-06 19:59:50,004 DEBUG   HandlerThread:10467 [system_info.py:probe():240] Probing system done
+2023-11-06 19:59:50,004 DEBUG   HandlerThread:10467 [system_monitor.py:probe():210] {'os': 'Linux-3.10.0-1160.102.1.el7.x86_64-x86_64-with-glibc2.17', 'python': '3.11.2', 'heartbeatAt': '2023-11-06T18:59:49.988243', 'startedAt': '2023-11-06T18:59:49.928210', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/cluster/home/shimin/small_LL_claim_classification/train_new.py', 'codePath': 'train_new.py', 'git': {'remote': 'https://github.com/PabS729/small_LL_claim_classification.git', 'commit': '5fb67318ae5fc1120d64aea75b3b37d1e433bcad'}, 'email': None, 'root': '/cluster/home/shimin/small_LL_claim_classification', 'host': 'eu-login-44', 'username': 'shimin', 'executable': '/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/bin/python', 'cpu_count': 4, 'cpu_count_logical': 4, 'cpu_freq': {'current': 3600.75025, 'min': 800.0, 'max': 3800.0}, 'cpu_freq_per_core': [{'current': 3700.225, 'min': 800.0, 'max': 3800.0}, {'current': 3638.452, 'min': 800.0, 'max': 3800.0}, {'current': 3598.803, 'min': 800.0, 'max': 3800.0}, {'current': 3676.153, 'min': 800.0, 'max': 3800.0}], 'disk': {'total': 9.990234375, 'used': 3.3985633850097656}, 'memory': {'total': 31.348785400390625}}
+2023-11-06 19:59:50,004 INFO    HandlerThread:10467 [system_monitor.py:probe():211] Finished collecting system info
+2023-11-06 19:59:50,004 INFO    HandlerThread:10467 [system_monitor.py:probe():214] Publishing system info
+2023-11-06 19:59:50,004 DEBUG   HandlerThread:10467 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2023-11-06 19:59:50,006 DEBUG   HandlerThread:10467 [system_info.py:_save_pip():67] Saving pip packages done
+2023-11-06 19:59:50,007 INFO    HandlerThread:10467 [system_monitor.py:probe():216] Finished publishing system info
+2023-11-06 19:59:54,954 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: status_report
+2023-11-06 19:59:54,954 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: status_report
+2023-11-06 19:59:59,955 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: status_report
+2023-11-06 19:59:59,955 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: status_report
+2023-11-06 20:00:04,956 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: status_report
+2023-11-06 20:00:04,957 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: status_report
+2023-11-06 20:00:09,791 DEBUG   SenderThread:10467 [sender.py:send():375] send: exit
+2023-11-06 20:00:09,791 INFO    SenderThread:10467 [sender.py:send_exit():598] handling exit code: 255
+2023-11-06 20:00:09,792 INFO    SenderThread:10467 [sender.py:send_exit():600] handling runtime: 19
+2023-11-06 20:00:09,793 INFO    SenderThread:10467 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2023-11-06 20:00:09,793 INFO    SenderThread:10467 [sender.py:send_exit():606] send defer
+2023-11-06 20:00:09,793 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,793 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 0
+2023-11-06 20:00:09,793 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,793 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 0
+2023-11-06 20:00:09,793 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 1
+2023-11-06 20:00:09,793 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,794 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 1
+2023-11-06 20:00:09,794 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,794 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 1
+2023-11-06 20:00:09,794 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 2
+2023-11-06 20:00:09,794 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,794 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 2
+2023-11-06 20:00:09,794 INFO    HandlerThread:10467 [system_monitor.py:finish():190] Stopping system monitor
+2023-11-06 20:00:09,795 DEBUG   SystemMonitor:10467 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-11-06 20:00:09,795 DEBUG   SystemMonitor:10467 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-11-06 20:00:09,795 DEBUG   SystemMonitor:10467 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-11-06 20:00:09,795 INFO    HandlerThread:10467 [interfaces.py:finish():202] Joined cpu monitor
+2023-11-06 20:00:09,796 INFO    HandlerThread:10467 [interfaces.py:finish():202] Joined disk monitor
+2023-11-06 20:00:09,797 INFO    HandlerThread:10467 [interfaces.py:finish():202] Joined memory monitor
+2023-11-06 20:00:09,797 INFO    HandlerThread:10467 [interfaces.py:finish():202] Joined network monitor
+2023-11-06 20:00:09,797 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,797 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 2
+2023-11-06 20:00:09,797 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 3
+2023-11-06 20:00:09,798 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,798 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 3
+2023-11-06 20:00:09,798 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,798 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 3
+2023-11-06 20:00:09,798 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 4
+2023-11-06 20:00:09,799 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,799 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 4
+2023-11-06 20:00:09,799 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,799 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 4
+2023-11-06 20:00:09,799 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 5
+2023-11-06 20:00:09,799 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,799 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 5
+2023-11-06 20:00:09,800 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,800 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 5
+2023-11-06 20:00:09,800 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 6
+2023-11-06 20:00:09,800 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,800 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 6
+2023-11-06 20:00:09,801 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,801 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 6
+2023-11-06 20:00:09,801 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 7
+2023-11-06 20:00:09,801 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: status_report
+2023-11-06 20:00:09,801 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,801 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 7
+2023-11-06 20:00:09,801 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: status_report
+2023-11-06 20:00:09,802 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,802 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 7
+2023-11-06 20:00:09,802 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 8
+2023-11-06 20:00:09,802 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,802 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 8
+2023-11-06 20:00:09,802 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,802 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 8
+2023-11-06 20:00:09,802 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 9
+2023-11-06 20:00:09,803 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,803 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 9
+2023-11-06 20:00:09,803 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,803 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 9
+2023-11-06 20:00:09,803 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 10
+2023-11-06 20:00:09,803 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,803 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 10
+2023-11-06 20:00:09,803 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,803 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 10
+2023-11-06 20:00:09,804 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 11
+2023-11-06 20:00:09,804 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,804 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 11
+2023-11-06 20:00:09,804 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,804 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 11
+2023-11-06 20:00:09,805 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 12
+2023-11-06 20:00:09,805 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,805 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 12
+2023-11-06 20:00:09,805 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,805 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 12
+2023-11-06 20:00:09,805 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 13
+2023-11-06 20:00:09,806 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,806 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 13
+2023-11-06 20:00:09,806 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,806 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 13
+2023-11-06 20:00:09,806 INFO    SenderThread:10467 [sender.py:transition_state():626] send defer: 14
+2023-11-06 20:00:09,806 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: defer
+2023-11-06 20:00:09,807 DEBUG   SenderThread:10467 [sender.py:send():375] send: final
+2023-11-06 20:00:09,807 INFO    HandlerThread:10467 [handler.py:handle_request_defer():170] handle defer: 14
+2023-11-06 20:00:09,807 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: defer
+2023-11-06 20:00:09,807 INFO    SenderThread:10467 [sender.py:send_request_defer():622] handle sender defer: 14
+2023-11-06 20:00:09,808 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: poll_exit
+2023-11-06 20:00:09,808 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: poll_exit
+2023-11-06 20:00:09,808 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: server_info
+2023-11-06 20:00:09,808 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: get_summary
+2023-11-06 20:00:09,808 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: sampled_history
+2023-11-06 20:00:09,809 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: poll_exit
+2023-11-06 20:00:09,809 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: poll_exit
+2023-11-06 20:00:09,809 DEBUG   SenderThread:10467 [sender.py:send_request():402] send_request: server_info
+2023-11-06 20:00:09,810 INFO    MainThread:10467 [wandb_run.py:_footer_history_summary_info():3476] rendering history
+2023-11-06 20:00:09,810 INFO    MainThread:10467 [wandb_run.py:_footer_history_summary_info():3508] rendering summary
+2023-11-06 20:00:09,810 DEBUG   HandlerThread:10467 [handler.py:handle_request():144] handle_request: shutdown
+2023-11-06 20:00:09,811 INFO    HandlerThread:10467 [handler.py:finish():845] shutting down handler
+2023-11-06 20:00:10,809 INFO    WriterThread:10467 [datastore.py:close():298] close: /cluster/home/shimin/small_LL_claim_classification/wandb/offline-run-20231106_195949-7k61au5k/run-7k61au5k.wandb
+2023-11-06 20:00:10,810 INFO    SenderThread:10467 [sender.py:finish():1550] shutting down sender

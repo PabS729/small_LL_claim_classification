@@ -119,11 +119,11 @@ def cleanup(args):
 
 def set_seed(args):
     """set random seed."""
-    seed = args.seed + args.local_rank
+    seed = args.seed
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    if args.n_gpu > 0:
-        torch.cuda.manual_seed_all(seed)
+    # if args.n_gpu > 0:
+    #     torch.cuda.manual_seed_all(seed)
 
 

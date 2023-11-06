@@ -1,0 +1,57 @@
+{
+    "os": "Linux-3.10.0-1160.102.1.el7.x86_64-x86_64-with-glibc2.17",
+    "python": "3.11.2",
+    "heartbeatAt": "2023-11-06T18:59:49.988243",
+    "startedAt": "2023-11-06T18:59:49.928210",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/cluster/home/shimin/small_LL_claim_classification/train_new.py",
+    "codePath": "train_new.py",
+    "git": {
+        "remote": "https://github.com/PabS729/small_LL_claim_classification.git",
+        "commit": "5fb67318ae5fc1120d64aea75b3b37d1e433bcad"
+    },
+    "email": null,
+    "root": "/cluster/home/shimin/small_LL_claim_classification",
+    "host": "eu-login-44",
+    "username": "shimin",
+    "executable": "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/bin/python",
+    "cpu_count": 4,
+    "cpu_count_logical": 4,
+    "cpu_freq": {
+        "current": 3600.75025,
+        "min": 800.0,
+        "max": 3800.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3700.225,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3638.452,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3598.803,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3676.153,
+            "min": 800.0,
+            "max": 3800.0
+        }
+    ],
+    "disk": {
+        "total": 9.990234375,
+        "used": 3.3985633850097656
+    },
+    "memory": {
+        "total": 31.348785400390625
+    }
+}

@@ -2,5 +2,6 @@ torch
 tqdm
 transformers
 numpy
-sklearn
-stanza
+scikit-learn
+
+evaluate

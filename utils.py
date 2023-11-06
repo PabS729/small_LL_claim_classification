@@ -10,7 +10,7 @@ from torch.utils.data import TensorDataset, Sampler
 import torch.distributed as dist
 import math
 from tqdm import tqdm
-import stanza
+# import stanza
 import datetime
 
 argument_tasks = ['mt', 'oc', 'pe', 'vg', 'wd', 'wtp']
@@ -148,47 +148,47 @@ def read_speeches_sentences_examples(file_dir, cache_path):
     return examples
 
 
-def read_sci_examples(filename, cache_path):
-    examples = []
-    nlp = stanza.Pipeline('en', processors='tokenize', dir=cache_path)
-    idx = 0
-    logger.info("open json file")
-    with open(filename,'r',encoding='utf8')as f:
-        for json_data in tqdm(f.readlines()):
-            try:
-                j = json.loads(json_data)
-                texts = j["contents"]
-                doc = nlp(texts)
-                for s in doc.sentences:
-                    if s.text[0]=='©':
-                        origin=s.text
-                for s in doc.sentences:
-                    if s.text[0]!='©':
-                        examples.append(
-                            Example_sci(idx=idx, source=s.text, target=1, id=j["id"], copyright=origin)
-                        )
-                idx += 1
-            except:
-                logger.info("cannot loads No."+str(idx)+" json. Continue")
-    return examples
+# def read_sci_examples(filename, cache_path):
+#     examples = []
+#     nlp = stanza.Pipeline('en', processors='tokenize', dir=cache_path)
+#     idx = 0
+#     logger.info("open json file")
+#     with open(filename,'r',encoding='utf8')as f:
+#         for json_data in tqdm(f.readlines()):
+#             try:
+#                 j = json.loads(json_data)
+#                 texts = j["contents"]
+#                 doc = nlp(texts)
+#                 for s in doc.sentences:
+#                     if s.text[0]=='©':
+#                         origin=s.text
+#                 for s in doc.sentences:
+#                     if s.text[0]!='©':
+#                         examples.append(
+#                             Example_sci(idx=idx, source=s.text, target=1, id=j["id"], copyright=origin)
+#                         )
+#                 idx += 1
+#             except:
+#                 logger.info("cannot loads No."+str(idx)+" json. Continue")
+#     return examples
         
 
-def read_nyt_examples(filename, n, nsamples, seed, cache_path):
-    examples = []
-    df = pd.read_csv(filename, nrows=n, encoding="utf-8")
-    df_samples = df.sample(nsamples, replace=False, random_state=seed)
-    nlp = stanza.Pipeline('en', processors='tokenize', dir=cache_path)
-    idx = 0
-    for i in range(nsamples):
-        texts = df_samples["article_text"][i]
-        doc = nlp(texts)
-        for s in doc.sentences:
-            examples.append(
-                Example_nyt(idx=idx, source=s.text, target=1,
-                            pub_date=df_samples["pub_date"][i], main=df_samples["main"][i])
-            )
-            idx += 1
-    return examples
+# def read_nyt_examples(filename, n, nsamples, seed, cache_path):
+#     examples = []
+#     df = pd.read_csv(filename, nrows=n, encoding="utf-8")
+#     df_samples = df.sample(nsamples, replace=False, random_state=seed)
+#     nlp = stanza.Pipeline('en', processors='tokenize', dir=cache_path)
+#     idx = 0
+#     for i in range(nsamples):
+#         texts = df_samples["article_text"][i]
+#         doc = nlp(texts)
+#         for s in doc.sentences:
+#             examples.append(
+#                 Example_nyt(idx=idx, source=s.text, target=1,
+#                             pub_date=df_samples["pub_date"][i], main=df_samples["main"][i])
+#             )
+#             idx += 1
+#     return examples
 
 
 def read_clef_2019_worth_examples(dir_name):
