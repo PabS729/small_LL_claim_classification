@@ -6,12 +6,12 @@ EPOCHS=5
 BATCHSIZE=16
 
 MODEL='distilbert-base-uncased'
-echo 'wandb login {api for wandb}' >> out.sh
+# echo 'wandb login {api for wandb}' >> out.sh
 
 for j in $( eval echo {0..$MAX_SILVER_LEN..$SILVER_LEN} )
 do
     echo "running $j silver labels"
-    echo "python train_new.py --model=$MODEL --use_silver=$j --use_bronze=$BRONZE_LEN --epochs=$EPOCHS --batch_size=$BATCHSIZE--seed=$RANDOM" >> out.sh
+    echo "python train_new.py --model=$MODEL --use_silver=$j --use_bronze=$BRONZE_LEN --epochs=$EPOCHS --batch_size=$BATCHSIZE --seed=$RANDOM" >> out.sh
 done
 
 chmod 755 out.sh

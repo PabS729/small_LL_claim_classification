@@ -13,7 +13,7 @@ import os
 from misc import *
 from IPython.display import display, HTML
 from transformers import AutoTokenizer, DistilBertForSequenceClassification, Trainer, TrainingArguments, AutoModelForSequenceClassification
-
+import wandb
 dataset_locs = {
     "clef_2021": "./data/sub1/",
     "clef_2022": "./data/CLEF_2022_ALAM",
@@ -22,7 +22,6 @@ dataset_locs = {
     'speeches':'./data/gold',
     'silver_speech':'./data/silver+bronze'
 }
-
 
 
 parser = argparse.ArgumentParser()

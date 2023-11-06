@@ -1,2 +1,28 @@
 wandb: Appending key for api.wandb.ai to your netrc file: /cluster/home/shimin/.netrc
 2023-11-06 21:10:27.099210: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Sodone reading training data
+done reading training data
+done reading training data
+done reading training data
+[]
+loaded datasets
+okk
+start training
+Traceback (most recent call last):
+  File "/cluster/home/shimin/small_LL_claim_classification/train_new.py", line 159, in <module>
+    trainer.train()
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 1664, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 1676, in _inner_training_loop
+    train_dataloader = self.get_train_dataloader()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/transformers/trainer.py", line 908, in get_train_dataloader
+    return DataLoader(
+           ^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/torch/utils/data/dataloader.py", line 357, in __init__
+    batch_sampler = BatchSampler(sampler, batch_size, drop_last)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/apps/nss/gcc-8.2.0/python/3.11.2/x86_64/lib64/python3.11/site-packages/torch/utils/data/sampler.py", line 232, in __init__
+    raise ValueError("batch_size should be a positive integer value, "
+ValueError: batch_size should be a positive integer value, but got batch_size=16--seed=25415
